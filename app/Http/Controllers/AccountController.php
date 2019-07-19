@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -73,7 +74,7 @@ class AccountController extends Controller
         	'kecamatan' => $location->kecamatan,
         	'kabkot' => $location->kabkot,
         	'provinsi' => 1,
-	        'user_id' => 1,
+	        'user_id' => Auth::id(),
         ]);
         $account->save();
         return redirect('/admin/account/create')->with('success', 'Akun Anggota Berhasil di Simpan.')->with('account_id', $account->id);
@@ -159,7 +160,7 @@ class AccountController extends Controller
 			    'kecamatan' => $location->kecamatan,
 			    'kabkot' => $location->kabkot,
 			    'provinsi' => 1,
-			    'user_id' => 1,
+			    'user_id' => Auth::id(),
 		    );
 
 		    $account->update($updated);

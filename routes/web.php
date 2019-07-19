@@ -15,24 +15,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', function () {
+	return view('welcome');
+})->name('home');
+
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin/', 'DashboardController@index');
+Route::get('/admin/', 'DashboardController@index')->middleware('auth');
 
-Route::get('/admin/account/', 'AccountController@index');
-Route::get('/admin/account/create/', 'AccountController@create');
-Route::post('/admin/account/', 'AccountController@store');
-Route::get('/admin/account/{id}', 'AccountController@show');
-Route::get('/admin/account/{id}/edit', 'AccountController@edit');
-Route::put('/admin/account/{id}', 'AccountController@update');
-Route::delete('/admin/account/{id}', 'AccountController@destroy');
+Route::get('/admin/account/', 'AccountController@index')->middleware('auth');
+Route::get('/admin/account/create/', 'AccountController@create')->middleware('auth');
+Route::post('/admin/account/', 'AccountController@store')->middleware('auth');
+Route::get('/admin/account/{id}', 'AccountController@show')->middleware('auth');
+Route::get('/admin/account/{id}/edit', 'AccountController@edit')->middleware('auth');
+Route::put('/admin/account/{id}', 'AccountController@update')->middleware('auth');
+Route::delete('/admin/account/{id}', 'AccountController@destroy')->middleware('auth');
 
-Route::get('/admin/deposit/', 'DepositController@index');
-Route::get('/admin/deposit/create/', 'DepositController@create');
-Route::post('/admin/deposit/', 'DepositController@store');
-Route::get('/admin/deposit/{id}', 'DepositController@show');
-Route::get('/admin/deposit/{id}/edit', 'DepositController@edit');
-Route::put('/admin/deposit/{id}', 'DepositController@update');
-Route::delete('/admin/deposit/{id}', 'DepositController@destroy');
+Route::get('/admin/deposit/', 'DepositController@index')->middleware('auth');
+Route::get('/admin/deposit/create/', 'DepositController@create')->middleware('auth');
+Route::post('/admin/deposit/', 'DepositController@store')->middleware('auth');
+Route::get('/admin/deposit/{id}', 'DepositController@show')->middleware('auth');
+Route::get('/admin/deposit/{id}/edit', 'DepositController@edit')->middleware('auth');
+Route::put('/admin/deposit/{id}', 'DepositController@update')->middleware('auth');
+Route::delete('/admin/deposit/{id}', 'DepositController@destroy')->middleware('auth');
+
+Route::get('/admin/user', 'UserController@index')->middleware('auth');
+

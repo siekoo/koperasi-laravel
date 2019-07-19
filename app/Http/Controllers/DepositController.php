@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Deposit;
 use App\Account;
+use Illuminate\Support\Facades\Auth;
 
 class DepositController extends Controller
 {
@@ -44,7 +45,7 @@ class DepositController extends Controller
 		        'flow' => $request->input('flow'),
 		        'amount' => $request->input('amount'),
 		        'status' => 'CLEARED',
-		        'user_id' => 1
+		        'user_id' => Auth::id()
 	        ]);
         	$deposit->save();
         	return redirect('/admin/deposit/create')->with('success', 'Transaksi berhasil disimpan.')->with('account_id', $account->id);

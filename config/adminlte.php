@@ -135,22 +135,23 @@ return [
 			'url'  => 'admin/deposit/',
 			'icon' => 'clipboard',
 		],
-		'PENGATURAN',
-		[
-			'text' => 'Profil',
-			'url'  => 'admin/user/',
-			'icon' => 'user',
-		],
+		'PERSONAL',
 		[
 			'text' => 'Histori Akun',
 			'url'  => 'admin/user/history/',
 			'icon' => 'history',
 		],
+		'ADMINISTRASI',
 		[
-			'text' => 'Ganti Password',
-			'url'  => 'admin/user/password',
-			'icon' => 'lock',
+			'text' => 'Registrasi User Baru',
+			'url'  => 'register',
+			'icon' => 'register'
 		],
+		[
+			'text' => 'Daftar User',
+			'url'  => 'admin/user',
+			'icon' => 'register'
+		]
 	],
 
     /*
