@@ -13,4 +13,8 @@ class Deposit extends Model
     public function account(){
     	return $this->belongsTo('App\Account', 'account_id', 'id');
     }
+
+    public function createdAt($format = 'd F Y'){
+    	return date($format,strtotime($this->created_at));
+    }
 }

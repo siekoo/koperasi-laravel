@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
 
-class UserController extends Controller
+class ExpenseCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        //return view('admin.user.index', array('users' => $users));
-	    return view('admin.premium');
-    }
-
-    public function history()
-    {
-    	return view('admin.premium');
+        //
     }
 
     /**
@@ -31,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.premium');
+        //
     }
 
     /**

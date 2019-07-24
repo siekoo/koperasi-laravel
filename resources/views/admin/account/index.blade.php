@@ -26,6 +26,7 @@
                             <th>Telepon</th>
                             <th>TTL</th>
                             <th>Alamat</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -35,15 +36,15 @@
                             <td>{{ $a->id }}</td>
                             <td>{{ $a->joined_at }}</td>
                             <td>{{ $a->number }}</td>
-                            <td>{{ $a->fullname }}</td>
+                            <td><a href="{{ url('/admin/account/' . $a->id) }}">{{ $a->fullname }}</a></td>
                             <td>{{ $a->jenis_kelamin() }}</td>
                             <td>{{ $a->job }}</td>
                             <td>{{ $a->phone }}</td>
                             <td>{{ $a->ttl('d F Y') }}</td>
                             <td>{{ $a->address_full() }}</td>
+                            <td><span class="label label-{{ $a->status == 'ACTIVE' ? 'success' : 'default' }}">{{ $a->status }}</span></td>
                             <td>
                                 <div class="btn-group-vertical">
-                                    <a class="btn btn-sm btn-show btn-info" href="{{ url('/admin/account/' . $a->id) }}"><i class="fa fa-window-maximize"></i> Detail</a>
                                     <a class="btn btn-sm btn-edit btn-warning" href="{{ url('/admin/account/' . $a->id . '/edit') }}"><i class="fa fa-pencil"></i> Edit</a>
                                     <form class="form" action="/admin/account/{{ $a->id }}" method="POST">
                                         {{ csrf_field() }}
@@ -62,10 +63,44 @@
     </div>
 @stop
 
+@push('css')
+    <style>
+        #account_length{
+            display: inline !important;
+        }
+        #custom-filter > select{
+            margin-left: 5px;
+            width: 80px;
+        }
+        .btn-filter {
+            margin-left: 5px;
+        }
+    </style>
+@endpush
+
 @push('js')
     <script>
+        var action = '{{ Route('admin.account') }}';
         $(document).ready(function() {
-            $('#account').DataTable();
+            $('#account').DataTable({
+                "order": [[ 3, "asc" ]]
+            });
+            $('<div id="custom-filter" style="display: inline; margin-left: 15px;">Status : ' +
+                '<select class="form-control" id="dtstatus">' +
+                '<option value="all">ALL</option>' +
+                '<option value="active">ACTIVE</option>' +
+                '<option value="inactive">INACTIVE</option>' +
+                '</select>' +
+                '<button class="btn btn-filter btn-primary" id="dtfilter">' +
+                '<i class="fa fa-sort"></i> Filter' +
+                '</button>' +
+                '</div>').appendTo("#account_wrapper > .row:first > .col-sm-6:first");
+            $('#dtstatus').val('{{ strtolower($status) }}');
+
+            $('#dtfilter').click(function(){
+                window.location.href = action + '?status=' + $('#dtstatus').val();
+            })
         } );
+
     </script>
 @endpush

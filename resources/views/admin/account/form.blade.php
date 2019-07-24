@@ -143,7 +143,7 @@
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="confirm" value="true" required> Saya yakin semua data diatas sudah benar
+                                        <input type="checkbox" name="_confirm" value="true" required> Saya yakin semua data diatas sudah benar
                                     </label>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Deposit;
 use App\Account;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DepositController extends Controller
 {
@@ -16,8 +17,35 @@ class DepositController extends Controller
      */
     public function index()
     {
-        $deposit = Deposit::all();
+        $deposit = Deposit::orderBy('id','desc')->take(10)->get();
         return view('admin.deposit.index', array('deposits' => $deposit));
+    }
+
+    public function weekly(Request $request)
+    {
+    	$week = $request->has('week') ? $request->input('week') : Date('W');
+    	$year = $request->has('week') ? $request->input('year') : Date('Y');
+    	$status = $request->has('status') ? strtolower($request->input('status')) : 'all';
+	    $account = Account::where('status', 'ACTIVE')->get();
+	    $account_payment = array();
+	    foreach($account as $a){
+		    $trx = DB::table('deposits')
+		             ->where('status', 'CLEARED')
+		             ->where('account_id', $a->id)
+		             ->whereRaw('date_format(created_at,"%Y-%u") = "' . $year . '-' . $week . '"')
+		             ->orderBy('id', 'desc')
+		             ->first();
+		    $a->weekly_payment = $trx == null ? 'pending' : 'paid';
+		    if($status == 'all') $account_payment[] = $a;
+		    elseif($status == $a->weekly_payment) $account_payment[] = $a;
+	    }
+	    $param = array(
+	    	'year' => $year,
+		    'week' => $week,
+		    'status' => $status,
+		    'account_payment' => $account_payment
+	    );
+	    return view('admin.deposit.weekly', $param);
     }
 
     /**
@@ -25,9 +53,14 @@ class DepositController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.deposit.form');
+    	$param = array();
+    	if($request->has('number')){
+    		$account = Account::where('number', $request->input('number'))->first();
+		    $param['account'] = $account;
+	    }
+        return view('admin.deposit.form', $param);
     }
 
     /**

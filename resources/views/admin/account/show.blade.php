@@ -69,6 +69,7 @@
                         <thead>
                             <th>No</th>
                             <th>Tanggal</th>
+                            <th>Pekan</th>
                             <th>Aliran</th>
                             <th>Jumlah</th>
                             <th>Kasir</th>
@@ -77,7 +78,8 @@
                             @foreach($transaction as $k => $t)
                             <tr>
                                 <td>{{ ($k+1) }}</td>
-                                <td>{{ $t->created_at }}</td>
+                                <td>{{ $t->createdAt() }}</td>
+                                <td>{{ $t->createdAt('W') }}</td>
                                 <td><span class="text-{{ $t->flow == 'IN' ? 'green' : 'red' }}">{{ $t->flow }}</span></td>
                                 <td><span class="text-{{ $t->flow == 'IN' ? 'green' : 'red' }}">IDR {{ number_format($t->amount) }}</span></td>
                                 <td>{{ User::find($t->user_id)['name'] }}</td>

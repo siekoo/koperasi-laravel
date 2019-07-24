@@ -13,7 +13,7 @@ return [
     |
     */
 
-	'title' => 'Koperasi Ummat',
+	'title' => 'Koperasi BMT',
 
 	'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-	'logo' => '<b>Koperasi</b> Ummat',
+	'logo' => '<b>Koperasi</b> BMT',
 
-	'logo_mini' => '<b>K</b>UM',
+	'logo_mini' => '<b>K</b>BMT',
 
     /*
     |--------------------------------------------------------------------------
@@ -115,25 +115,41 @@ return [
 			'icon'        => 'dashboard',
 		],
 		[
-			'text'        => 'Buat Simpanan',
-			'url'         => 'admin/deposit/create/',
-			'icon'        => 'calendar',
-		],
-		[
-			'text'        => 'Daftar Keanggotaan',
+			'text'        => 'Keanggotaan Baru',
 			'url'         => 'admin/account/create/',
 			'icon'        => 'user-plus',
 		],
+		[
+			'text'        => 'Transaksi Baru',
+			'url'         => 'admin/deposit/create/',
+			'icon'        => 'calculator',
+		],
+		[
+			'text'        => 'Pengeluaran Baru',
+			'url'         => 'admin/expense/create/',
+			'icon'        => 'cart-plus',
+		],
+
 		'LAPORAN',
+		[
+			'text'        => 'Iuran Wajib',
+			'url'         => 'admin/deposit/weekly/',
+			'icon'        => 'calendar',
+		],
 		[
 			'text' => 'Daftar Anggota',
 			'url'  => 'admin/account/',
 			'icon' => 'users'
 		],
 		[
-			'text' => 'Mutasi Anggota',
+			'text' => 'Daftar Transaksi',
 			'url'  => 'admin/deposit/',
 			'icon' => 'clipboard',
+		],
+		[
+			'text'        => 'Laporan Pengeluaran',
+			'url'         => 'admin/expense/',
+			'icon'        => 'book',
 		],
 		'PERSONAL',
 		[
@@ -144,13 +160,13 @@ return [
 		'ADMINISTRASI',
 		[
 			'text' => 'Registrasi User Baru',
-			'url'  => 'register',
-			'icon' => 'register'
+			'url'  => 'admin/user/create/',
+			'icon' => 'id-card'
 		],
 		[
 			'text' => 'Daftar User',
 			'url'  => 'admin/user',
-			'icon' => 'register'
+			'icon' => 'address-book'
 		]
 	],
 

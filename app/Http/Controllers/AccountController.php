@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Deposit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +15,14 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-    	$accounts = Account::all();
-        return view('admin.account.index', array('account' => $accounts));
+    	$param = array('status' => 'ALL');
+    	if($request->has('status')) $param['status'] = $request->input('status');
+	    if($param['status'] == 'ALL') $accounts = Account::orderBy('id', 'desc')->get();
+    	else $accounts = Account::where('status', $param)->orderBy('id', 'desc')->get();
+    	$param['account'] = $accounts;
+        return view('admin.account.index', $param);
     }
 
     /**
@@ -89,10 +94,7 @@ class AccountController extends Controller
     public function show($id)
     {
         $account = Account::find($id);
-        $transaction = DB::table('deposits')
-                         ->where('account_id', $id)
-                         ->orderBy('created_at', 'desc')
-                         ->get();
+        $transaction = Deposit::where('account_id', $id)->orderBy('id', 'desc')->get();
         $param = array(
             'account' => $account,
 	        'transaction' => $transaction

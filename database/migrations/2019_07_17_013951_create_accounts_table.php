@@ -35,6 +35,7 @@ class CreateAccountsTable extends Migration
 	        $table->integer('kecamatan');
 	        $table->integer('kabkot');
 			$table->integer('provinsi');
+			$table->string('status');
 
 	        $table->integer('user_id');
         });

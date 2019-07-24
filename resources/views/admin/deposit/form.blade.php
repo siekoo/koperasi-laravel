@@ -38,7 +38,11 @@
                         <div class="form-group">
                             <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Kartu Anggota</label>
                             <div class="col-sm-9">
-                                <select class="form-control select-rekening" id="account" name="account" required></select>
+                                <select class="form-control select-rekening" id="account" name="account" required>
+                                    @if(isset($account))
+                                    <option value="{{ $account->id }}" selected>{{ $account->number . ' - ' . $account->fullname }}</option>
+                                    @endif
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="fullname" class="col-sm-3 control-label">Aliran</label>
+                            <label for="fullname" class="col-sm-3 control-label">Jenis</label>
                             <div class="col-sm-9">
                                 <select type="text" class="form-control" id="flow" name="flow" required>
                                     <option value="IN">Setoran</option>
@@ -78,7 +82,7 @@
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="confirm" value="true" required> Saya yakin semua data diatas sudah benar
+                                        <input type="checkbox" name="_confirm" value="true" required> Saya yakin semua data diatas sudah benar
                                     </label>
                                 </div>
                             </div>
