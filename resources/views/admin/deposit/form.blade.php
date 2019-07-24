@@ -101,6 +101,14 @@
     </div>
 @stop
 
+@push('css')
+    <style>
+        .select-rekening{
+            width: 100%;
+        }
+    </style>
+@endpush
+
 @push('js')
     <script>
         $(document).ready(function() {

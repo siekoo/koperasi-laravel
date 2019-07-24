@@ -6,6 +6,21 @@
     <h1>Dashboard</h1>
 @stop
 
+<?php
+
+function number_category($number){
+    $text = number_format($number);
+	if($number > 1000){
+		$text = round($number / 1000, 2) . ' rb';
+	}
+	if($number > 1000000){
+    	$text = round($number / 1000000, 2) . ' jt';
+    }
+    return $text;
+}
+
+?>
+
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-xs-6">
@@ -29,7 +44,7 @@
                 <div class="inner">
                     <h3>{{ sizeof($pending_account) }}/{{ $active_account }}<span style="color: white; font-size: 10pt;">anggota</span></h3>
 
-                    <p>Belum membayar iuran pekanan</p>
+                    <p>Belum membayar iuran</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -42,7 +57,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3><span style="color: white; font-size: 10pt;">Rp</span>{{ number_format($kas) }}</h3>
+                    <h3><span style="color: white; font-size: 10pt;">Rp</span>{{ number_category($kas) }}</h3>
 
                     <p>Kas Tersimpan</p>
                 </div>
@@ -57,7 +72,7 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3><span style="color: white; font-size: 10pt;">Rp</span>{{ number_format($monthly_expense) }}</h3>
+                    <h3><span style="color: white; font-size: 10pt;">Rp</span>{{ number_category($monthly_expense) }}</h3>
 
                     <p>Pengeluaran bulan ini</p>
                 </div>
@@ -84,7 +99,6 @@
                             <th>J/K</th>
                             <th>Pekerjaan</th>
                             <th>Alamat</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -114,6 +128,9 @@
                 <div class="box-body">
                     <canvas width="100%" height="50" id="cashflow-chart"></canvas>
                 </div>
+                <div class="box-footer">
+                    <a class="btn btn-default btn-block" href="#">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
     </div>
@@ -132,7 +149,6 @@
                             <th>Alamat</th>
                             <th>Aliran</th>
                             <th>Jumlah</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -142,7 +158,7 @@
                                 <td><a href="{{ Route('admin.account.show', $d->account->id) }}" target="_blank">{{ $d->account->fullname }}</a></td>
                                 <td>{{ $d->account->desa_full() }}</td>
                                 <td><span class="text-{{ $d->flow == 'IN' ? 'green' : 'red' }}">{{ $d->flow }}</span></td>
-                                <td><span class="text-{{ $d->flow == 'IN' ? 'green' : 'red' }}">IDR {{ number_format($d->amount) }}</span></td>
+                                <td><span class="text-{{ $d->flow == 'IN' ? 'green' : 'red' }}">{{ number_format($d->amount) }}</span></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -167,7 +183,6 @@
                             <th>Kategori</th>
                             <th>Deskripsi</th>
                             <th>Jumlah</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>

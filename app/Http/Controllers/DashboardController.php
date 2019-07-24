@@ -61,9 +61,9 @@ class DashboardController extends Controller
 
 		$new_account = Account::orderBy('id', 'desc')->take(5)->get();
 
-		$last_transaction = Deposit::orderBy('id', 'desc')->take(10)->get();
+		$last_transaction = Deposit::orderBy('id', 'desc')->take(5)->get();
 
-		$last_expense = Expense::orderBy('id', 'desc')->take(10)->get();
+		$last_expense = Expense::orderBy('id', 'desc')->take(5)->get();
 
     	$param = array(
 			'active_account' => $active_account,

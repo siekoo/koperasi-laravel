@@ -166,6 +166,17 @@
     </div>
 @stop
 
+@push('css')
+    <style>
+        .select2-drop{
+            width: 100%;
+        }
+        .select-desa{
+            width: 100%;
+        }
+    </style>
+@endpush
+
 @push('js')
     <script>
         $(document).ready(function() {
