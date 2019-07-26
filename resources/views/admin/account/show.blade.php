@@ -20,7 +20,7 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>No Rekening</td>
+                                <td>No Registrasi</td>
                                 <td>{{ $account->number }}</td>
                             </tr>
                             <tr>
@@ -39,10 +39,12 @@
                                 <td>Jenis Kelamin</td>
                                 <td>{{ $account->jenis_kelamin() }}</td>
                             </tr>
+                            <?php /*
                             <tr>
                                 <td>Pekerjaan</td>
                                 <td>{{ $account->job }}</td>
                             </tr>
+                            */ ?>
                             <tr>
                                 <td>Telepon</td>
                                 <td>{{ $account->phone }}</td>
@@ -62,10 +64,10 @@
 
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mutasi Rekening</h3>
+                    <h3 class="box-title">Riwayat Transaksi</h3>
                 </div>
                 <div class="box-body table-responsive">
-                    <table class="table">
+                    <table class="table" id="mutasi">
                         <thead>
                             <th>No</th>
                             <th>Tanggal</th>
@@ -93,3 +95,12 @@
         </div>
     </div>
 @stop
+
+@push('js')
+    <script>
+        $('#mutasi').DataTable({
+            "order": [[ 0, "asc" ]]
+        });
+    </script>
+
+@endpush

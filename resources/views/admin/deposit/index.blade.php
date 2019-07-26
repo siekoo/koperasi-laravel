@@ -19,7 +19,7 @@
                         <tr>
                             <th>No</th>
                             <th>Tanggal</th>
-                            <th>Nomor Rekening</th>
+                            <th>Registrasi</th>
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Telepon</th>

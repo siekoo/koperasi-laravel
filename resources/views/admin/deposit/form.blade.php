@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Kartu Anggota</label>
+                            <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Registrasi</label>
                             <div class="col-sm-9">
                                 <select class="form-control select-rekening" id="account" name="account" required>
                                     @if(isset($account))

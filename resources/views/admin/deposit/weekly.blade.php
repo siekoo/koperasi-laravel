@@ -17,7 +17,7 @@
                     <table id="pending-account" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                         <th>No</th>
-                        <th>Rekening</th>
+                        <th>Registrasi</th>
                         <th>Nama</th>
                         <th>Alamat</th>
                         <th>Kontak</th>

@@ -32,7 +32,7 @@
                 <form class="form-horizontal" action="/admin/account/{{ isset($account) ? $account->id : '' }}" method="POST">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Kartu Anggota</label>
+                            <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Registrasi</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="number" placeholder="" name="number" value="{{ isset($account) ? $account->number : $number }}" required>
                             </div>
@@ -95,6 +95,7 @@
                                 </select>
                             </div>
                         </div>
+                        <?php /*
                         <div class="form-group">
                             <label for="job" class="col-sm-3 control-label">Pekerjaan</label>
                             <div class="col-sm-9">
@@ -106,6 +107,7 @@
                                 </select>
                             </div>
                         </div>
+                        */ ?>
                         <div class="form-group">
                             <label for="phone" class="col-sm-3 control-label">Telepon</label>
                             <div class="col-sm-9">
