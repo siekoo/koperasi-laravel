@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Deposit;
+use App\Desa;
+use App\Kabkot;
+use App\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +20,27 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-    	$param = array('status' => 'ALL');
-    	if($request->has('status')) $param['status'] = $request->input('status');
-	    if($param['status'] == 'ALL') $accounts = Account::orderBy('id', 'desc')->get();
-    	else $accounts = Account::where('status', $param)->orderBy('id', 'desc')->get();
-    	$param['account'] = $accounts;
+    	$accounts = Account::orderBy('id', 'desc');
+	    $param = array(
+	    	'status' => 'ALL', 'kabkot' => 'ALL', 'kecamatan' => 'ALL', 'desa' => 'ALL',
+	    );
+
+	    foreach($param as $key => $val){
+		    if($request->has($key)) {
+			    $param[$key] = $request->input($key);
+			    if($param[$key] != 'ALL') {
+			    	$accounts->where($key, $param[$key]);
+			    	if($key == 'kecamatan') $param['kecamatan_data'] = Kecamatan::find($param['kecamatan']);
+				    if($key == 'desa') $param['desa_data'] = Desa::find($param['desa']);
+			    }
+		    }
+	    }
+
+	    $kabkot = Kabkot::orderBy('nama', 'asc')->get();
+	    $param['kabkot_data'] = $kabkot;
+	    $param['accounts'] = $accounts->get();
+	    $param['status_data'] = array('ALL', 'ACTIVE', 'INACTIVE');
+
         return view('admin.account.index', $param);
     }
 
@@ -183,8 +202,8 @@ class AccountController extends Controller
     }
 
     private function generate_account_number(){
-	    $string='';
-	    for($i=0;$i<10;$i++) {
+	    $string=env('OPT_APP_CODE');
+	    for($i=0;$i<env('OPT_ACCOUNT_NUMBER_LENGTH')-2;$i++) {
 		    $string.=rand(0,9);
 	    }
 	    return $string;

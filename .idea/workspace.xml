@@ -4,12 +4,7 @@
     <list default="true" id="8395c040-fed1-4385-87d4-9ede1d7b63c4" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/account/form.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/account/form.blade.php" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/account/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/account/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/account/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/account/show.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/deposit/form.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/deposit/form.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/deposit/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/deposit/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/deposit/weekly.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/deposit/weekly.blade.php" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" afterPath="$PROJECT_DIR$/routes/api.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -464,7 +459,7 @@
       <workItem from="1563457949050" duration="20818000" />
       <workItem from="1563767763493" duration="15932000" />
       <workItem from="1563931817915" duration="17911000" />
-      <workItem from="1564127466039" duration="8869000" />
+      <workItem from="1564127466039" duration="8955000" />
     </task>
     <task id="LOCAL-00001" summary="add pages auth">
       <created>1563530893024</created>
@@ -494,11 +489,18 @@
       <option name="project" value="LOCAL" />
       <updated>1563971711171</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="revisi 2 : label form">
+      <created>1564148269261</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1564148269262</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86967000" />
+    <option name="totallyTimeSpent" value="87053000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="819" extended-state="0" />
@@ -558,7 +560,8 @@
     <MESSAGE value="change front" />
     <MESSAGE value="revisi 1" />
     <MESSAGE value="responsive dashboard and forms" />
-    <option name="LAST_COMMIT_MESSAGE" value="responsive dashboard and forms" />
+    <MESSAGE value="revisi 2 : label form" />
+    <option name="LAST_COMMIT_MESSAGE" value="revisi 2 : label form" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
