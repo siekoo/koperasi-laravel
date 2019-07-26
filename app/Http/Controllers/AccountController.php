@@ -40,6 +40,7 @@ class AccountController extends Controller
 	    $param['kabkot_data'] = $kabkot;
 	    $param['accounts'] = $accounts->get();
 	    $param['status_data'] = array('ALL', 'ACTIVE', 'INACTIVE');
+	    $param['print'] = $request->has('print') ? true : false;
 
         return view('admin.account.index', $param);
     }
