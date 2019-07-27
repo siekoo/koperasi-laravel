@@ -10,6 +10,7 @@ Framework, library dan script tambahan yang digunakan pada proyek ini diantarany
 - [Laravel 5.8](https://laravel.com/docs/5.8/)
 - [Laravel-adminLTE](https://github.com/jeroennoten/Laravel-AdminLTE)
 - [Laratrust](https://laratrust.santigarcor.me/)
+- [Laravel-excel](https://laravel-excel.com/)
 
 ## Kontribusi
 

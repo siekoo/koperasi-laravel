@@ -96,7 +96,8 @@
                                     <div class="col-md-4">
                                         <a href="{{ Route('admin.account') }}" style="margin-right: 10px;"> Reset</a>
                                         <button type="submit" class="btn btn-filter btn-primary" id="dtfilter"><i class="fa fa-sort"></i> Filter</button>
-                                        <button type="submit" class="btn btn-print btn-success" name="print" value="1" onclick="$('form').attr('target', '_blank');"><i class="fa fa-print"></i> Print</button>
+                                        <button type="submit" class="btn btn-print btn-info" name="print" value="1" onclick="$('form').attr('target', '_blank');"><i class="fa fa-print"></i> Print</button>
+                                        <button type="submit" class="btn btn-export btn-success" name="export" value="1" onclick="$('form').attr('target', '_blank');"><i class="fa fa-file-excel-o"></i> Export XLS</button>
                                     </div>
                                 </div>
 
@@ -123,9 +124,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($accounts as $a)
+                                @foreach($accounts as $k => $a)
                                     <tr>
-                                        <td>{{ $a->id }}</td>
+                                        <td>{{ $k+1 }}</td>
                                         <td>{{ $a->joined_at }}</td>
                                         <td>{{ $a->number }}</td>
                                         @if($print) <td>{{ $a->fullname }}</td>
@@ -168,9 +169,7 @@
     @else
         <script>
             $(document).ready(function() {
-                $('#account').DataTable({
-                    "order": [[ 3, "asc" ]]
-                });
+                $('#account').DataTable();
 
                 $('.select-kecamatan').select2({
                     placeholder: '',

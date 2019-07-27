@@ -10,6 +10,8 @@ use App\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\AccountExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountController extends Controller
 {
@@ -42,8 +44,15 @@ class AccountController extends Controller
 	    $param['status_data'] = array('ALL', 'ACTIVE', 'INACTIVE');
 	    $param['print'] = $request->has('print') ? true : false;
 
+	    $filename = 'kabkot=' . $param['kabkot']
+	                . '-kecamatan=' . $param['kecamatan']
+	                . '-desa=' . $param['desa']
+	                . '-status=' . $param['status'];
+
+	    if($request->has('export')) return Excel::download(new AccountExport($param), 'accounts-' . date('dmy') . '-' . $filename . '.xls');
         return view('admin.account.index', $param);
     }
+
 
     /**
      * Show the form for creating a new resource.
