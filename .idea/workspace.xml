@@ -80,8 +80,8 @@
       <file leaf-file-name="excel.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config/excel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="143" column="61" lean-forward="true" selection-start-line="143" selection-start-column="61" selection-end-line="143" selection-end-column="61" />
+            <state relative-caret-position="524">
+              <caret line="165" column="38" lean-forward="true" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -479,7 +479,7 @@
       <workItem from="1563457949050" duration="20818000" />
       <workItem from="1563767763493" duration="15932000" />
       <workItem from="1563931817915" duration="17911000" />
-      <workItem from="1564127466039" duration="19608000" />
+      <workItem from="1564127466039" duration="20051000" />
     </task>
     <task id="LOCAL-00001" summary="add pages auth">
       <created>1563530893024</created>
@@ -551,11 +551,18 @@
       <option name="project" value="LOCAL" />
       <updated>1564192876717</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="config laravel-excel">
+      <created>1564193495610</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1564193495610</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97706000" />
+    <option name="totallyTimeSpent" value="98149000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="819" extended-state="0" />
@@ -1209,8 +1216,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/excel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="143" column="61" lean-forward="true" selection-start-line="143" selection-start-column="61" selection-end-line="143" selection-end-column="61" />
+        <state relative-caret-position="524">
+          <caret line="165" column="38" lean-forward="true" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="38" />
           <folding />
         </state>
       </provider>

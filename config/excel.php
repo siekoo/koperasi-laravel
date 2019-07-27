@@ -163,7 +163,7 @@ return [
         | storing reading or downloading. Here you can customize that path.
         |
         */
-        'local_path'  => $_SERVER['DOCUMENT_ROOT'] . '/tmp/',
+        'local_path'  => storage_path(),
 
         /*
         |--------------------------------------------------------------------------
