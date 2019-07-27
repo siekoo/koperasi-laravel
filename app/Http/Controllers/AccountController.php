@@ -44,12 +44,13 @@ class AccountController extends Controller
 	    $param['status_data'] = array('ALL', 'ACTIVE', 'INACTIVE');
 	    $param['print'] = $request->has('print') ? true : false;
 
-	    $filename = 'kabkot=' . $param['kabkot']
+	    $filename = 'accounts-' . date('dmy') . '-kabkot=' . $param['kabkot']
 	                . '-kecamatan=' . $param['kecamatan']
 	                . '-desa=' . $param['desa']
 	                . '-status=' . $param['status'];
 
-	    if($request->has('export')) return Excel::download(new AccountExport($param), 'accounts-' . date('dmy') . '-' . $filename . '.xls');
+	    if($request->has('export'))
+	    	return Excel::download(new AccountExport($param), $filename . '.xls');
         return view('admin.account.index', $param);
     }
 
