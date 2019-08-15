@@ -17,7 +17,7 @@
     @foreach($accounts as $k => $a)
         <tr>
             <td>{{ $k+1 }}</td>
-            <td>{{ $a->joined_at }}</td>
+            <td>{{ $a->joined_at() }}</td>
             <td>{{ $a->number }}</td>
             @if($print) <td>{{ $a->fullname }}</td>
             @else <td><a href="{{ url('/admin/account/' . $a->id) }}">{{ $a->fullname }}</a></td>

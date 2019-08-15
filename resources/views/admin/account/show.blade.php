@@ -25,7 +25,7 @@
                             </tr>
                             <tr>
                                 <td>Tanggal Pendaftaran</td>
-                                <td>{{ $account->joined_at('d F Y') }}</td>
+                                <td>{{ $account->joined_at() }}</td>
                             </tr>
                             <tr>
                                 <td>Nama</td>
@@ -81,7 +81,7 @@
                             <tr>
                                 <td>{{ ($k+1) }}</td>
                                 <td>{{ $t->createdAt() }}</td>
-                                <td>{{ $t->createdAt('W') }}</td>
+                                <td>{{ $t->createdWeek() }}</td>
                                 <td><span class="text-{{ $t->flow == 'IN' ? 'green' : 'red' }}">{{ $t->flow }}</span></td>
                                 <td><span class="text-{{ $t->flow == 'IN' ? 'green' : 'red' }}">IDR {{ number_format($t->amount) }}</span></td>
                                 <td>{{ User::find($t->user_id)['name'] }}</td>

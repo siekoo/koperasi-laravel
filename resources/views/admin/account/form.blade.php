@@ -31,10 +31,11 @@
                 </div>
                 <form class="form-horizontal" action="/admin/account/{{ isset($account) ? $account->id : '' }}" method="POST">
                     <div class="box-body">
+                        @if(isset($account))
                         <div class="form-group">
                             <label for="kartu_anggota" class="col-sm-3 control-label">Nomor Registrasi</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="number" placeholder="" name="number" value="{{ isset($account) ? $account->number : $number }}" required>
+                                <input type="text" class="form-control" id="number" placeholder="" name="number" value="{{ isset($account) ? $account->number : $number }}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -44,11 +45,11 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right select-date" id="joined_at" name="joined_at" value="{{ isset($account) ? $account->joined_at : date('d/m/Y') }}" required>
+                                    <input type="text" class="form-control pull-right select-date" id="joined_at" name="joined_at" value="{{ isset($account) ? $account->joined_at() : $current_date }}" disabled>
                                 </div>
                             </div>
                         </div>
-
+                        @endif
                         <div class="form-group">
                             <label for="fullname" class="col-sm-3 control-label">Nama Lengkap</label>
                             <div class="col-sm-9">

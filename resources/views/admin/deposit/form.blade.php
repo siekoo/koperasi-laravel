@@ -31,7 +31,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right select-date" id="joined_at" name="joined_at" value="{{ date('d/m/Y') }}" required>
+                                    <input type="text" class="form-control pull-right" value="{{ $current }}" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
                                 </div>
                             </div>
                         </div>
@@ -67,8 +67,7 @@
                             <label for="fullname" class="col-sm-3 control-label">Jenis</label>
                             <div class="col-sm-9">
                                 <select type="text" class="form-control" id="flow" name="flow" required>
-                                    <option value="IN">Setoran</option>
-                                    <option value="OUT">Penarikan</option>
+                                    <option value="IN" selected>Setoran</option>
                                 </select>
                             </div>
                         </div>
@@ -113,7 +112,7 @@
     <script>
         $(document).ready(function() {
             $('.select-rekening').select2({
-                minimumInputLength: 10,
+                minimumInputLength: 4,
                 ajax: {
                     url: '{{ url('/') . '/api/rekening/' }}',
                     dataType: 'json',

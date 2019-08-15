@@ -2,6 +2,7 @@
 
 namespace App;
 
+use GeniusTS\HijriDate\Hijri;
 use Illuminate\Database\Eloquent\Model;
 
 class Deposit extends Model
@@ -14,7 +15,12 @@ class Deposit extends Model
     	return $this->belongsTo('App\Account', 'account_id', 'id');
     }
 
-    public function createdAt($format = 'd F Y'){
-    	return date($format,strtotime($this->created_at));
+    public function createdAt($format = 'd/m/Y H:i'){
+    	return 'gregorian' == env('OPT_DATE_FORMAT') ? date($format,strtotime($this->created_at))
+		    : Hijri::convertToHijri($this->created_at)->format($format);
+    }
+
+    public function createdWeek(){
+	    return date('W',strtotime($this->created_at));
     }
 }

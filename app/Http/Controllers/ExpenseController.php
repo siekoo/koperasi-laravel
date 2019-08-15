@@ -6,6 +6,9 @@ use App\Expense;
 use App\ExpenseCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use GeniusTS\HijriDate;
+use App\Exports\ExpenseExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExpenseController extends Controller
 {
@@ -14,10 +17,56 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Expense::orderBy('id', 'desc')->take(10)->get();
-        return view('admin.expense.index', array('expenses' => $expenses));
+	    $expenses =  Expense::orderBy('id', 'desc');
+	    $expenseCategory = ExpenseCategory::all();
+
+	    $param = array(
+		    'category' => 'ALL', 'status' => 'ALL',
+		    'startdate' => 'ALL', 'enddate' => 'ALL',
+	    );
+
+	    $startdate = $request->has('startdate') ? $request->input('startdate') : 'ALL';
+	    $enddate = $request->has('enddate') ? $request->input('enddate') : 'ALL';
+	    if($startdate != 'ALL' && $enddate != 'ALL'){
+		    $exp = explode('-', $startdate);
+		    $startgreg = HijriDate\Hijri::convertToGregorian($exp[0], $exp[1], $exp[2])->format('Y-m-d');
+
+		    $exp = explode('-', $enddate);
+		    $endgreg = HijriDate\Hijri::convertToGregorian($exp[0], $exp[1], $exp[2])->format('Y-m-d');
+
+		    $expenses->whereRaw('(expenses.created_at >= "' . $startgreg . ' 00:00:00 " AND expenses.created_at <= "' . $endgreg . ' 23:59:59")');
+	    }
+
+	    $category = $request->has('category') ? $request->input('category') : 'ALL';
+	    if($category != 'ALL'){
+	    	$expenses->where('expense_category_id', '=', $category);
+	    }
+
+	    $status = $request->has('status') ? $request->input('status') : 'ALL';
+	    if($status != 'ALL'){
+		    $expenses->where('status', '=', $status);
+	    }
+
+
+
+	    $param['expenses'] = $expenses->take(10)->get();
+	    $param['category_data'] = $expenseCategory;
+	    $param['status_data'] = array('ALL', 'CLEARED', 'PENDING');
+	    $param['print'] = $request->has('print') ? true : false;
+	    $param['category'] = $category;
+	    $param['startdate'] = $startdate;
+	    $param['enddate'] = $enddate;
+	    $param['status'] = $status;
+
+	    $filename = 'expense-' . date('dmy')
+	                . '-rentang=' . $startdate . 'sd' . $enddate;
+
+	    if($request->has('export'))
+		    return Excel::download(new ExpenseExport($param), $filename . '.xls');
+
+	    return view('admin.expense.index', $param);
     }
 
     /**
@@ -27,8 +76,11 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-    	$categories = ExpenseCategory::all();
-        return view('admin.expense.form', array('categories' => $categories));
+    	$param = array(
+            'categories' => ExpenseCategory::all(),
+		    'current' => 'gregorian' == env('OPT_DATE_FORMAT') ? date('d/m/Y') : HijriDate\Date::today()->format('d/m/Y')
+	    );
+        return view('admin.expense.form', $param);
     }
 
     /**
@@ -39,7 +91,10 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-	    $expense_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->input('expense_date'))));
+    	$dt = explode('/', $request->input('expense_date'));
+	    $expense_date = 'gregorian' == env('OPT_DATE_FORMAT') ?
+		    date('Y-m-d',strtotime(str_replace('/', '-', $request->input('expense_date'))))
+		    : HijriDate\Hijri::convertToGregorian($dt[0], $dt[1], $dt[2])->format('Y-m-d');
 	    $expense = new Expense([
 	    	'expense_date' => $expense_date,
 		    'expense_category_id' => $request->input('expense_category_id'),
@@ -89,7 +144,10 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-	    $expense_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->input('expense_date'))));
+	    $dt = explode('/', $request->input('expense_date'));
+	    $expense_date = 'gregorian' == env('OPT_DATE_FORMAT') ?
+		    date('Y-m-d',strtotime(str_replace('/', '-', $request->input('expense_date'))))
+		    : HijriDate\Hijri::convertToGregorian($dt[0], $dt[1], $dt[2])->format('Y-m-d');
 	    $request->merge(['expense_date' => $expense_date]);
         $expense = Expense::find($id);
         if($expense != null){

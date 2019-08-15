@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\AccountExport;
 use Maatwebsite\Excel\Facades\Excel;
+use GeniusTS\HijriDate;
 
 class AccountController extends Controller
 {
@@ -68,7 +69,8 @@ class AccountController extends Controller
     	$param = array(
     		'number' => $this->generate_account_number(),
 		    'jobs' => $jobs,
-		    'dusuns' => $dusuns
+		    'dusuns' => $dusuns,
+		    'current_date' => env('OPT_DATE_FORMAT') == 'gregorian' ? date('d/m/Y') : HijriDate\Date::today(),
 	    );
 
         return view('admin.account.form', $param);
@@ -83,17 +85,24 @@ class AccountController extends Controller
     public function store(Request $request)
     {
 	    $location = DB::table('location_desa')
-	              ->select('location_desa.id as desa', 'location_kecamatan.id as kecamatan', 'location_kabkot.id as kabkot')
+	              ->select(
+	              	'location_desa.id as desa', 'location_kecamatan.id as kecamatan', 'location_kabkot.id as kabkot',
+	                'location_kabkot.kode as kode_kabkot', 'location_kecamatan.kode as kode_kecamatan'
+	              )
 	              ->join('location_kecamatan', 'location_desa.kecamatan_id', '=', 'location_kecamatan.id')
 	              ->join('location_kabkot', 'location_kecamatan.kabkot_id', '=', 'location_kabkot.id')
 	              ->where('location_desa.id', $request->input('desa'))
 	              ->first();
 
-	    $joined_at = date('Y-m-d',strtotime(str_replace('/', '-', $request->input('joined_at'))));
 	    $birth_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->input('birth_date'))));
+	    $joined_at =  $request->has('joined_at') ?
+		    date('Y-m-d',strtotime(str_replace('/', '-', $request->input('joined_at')))) : date('Y-m-d');
+	    $number = str_pad($location->kode_kabkot, 2, 0, STR_PAD_LEFT) .
+	              str_pad($location->kode_kecamatan, 2, 0, STR_PAD_LEFT) .
+	              $this->generate_account_number();
 
         $account = new Account([
-        	'number' => $request->input('number'),
+        	'number' => $number,
         	'joined_at' => $joined_at,
         	'fullname' => ucwords($request->input('fullname')),
         	'father_name' => ucwords($request->input('father_name')),
@@ -109,7 +118,8 @@ class AccountController extends Controller
         	'kecamatan' => $location->kecamatan,
         	'kabkot' => $location->kabkot,
         	'provinsi' => 1,
-	        'user_id' => Auth::id(),
+	        'status' => 'ACTIVE',
+ 	        'user_id' => Auth::id(),
         ]);
         $account->save();
         return redirect('/admin/account/create')->with('success', 'Akun Anggota Berhasil di Simpan.')->with('account_id', $account->id);
@@ -147,7 +157,7 @@ class AccountController extends Controller
 		    'number' => $this->generate_account_number(),
 		    'jobs' => $jobs,
 		    'dusuns' => $dusuns,
-		    'account' => $account
+		    'account' => $account,
 	    );
 
 	    return view('admin.account.form', $param);
@@ -176,7 +186,7 @@ class AccountController extends Controller
 		    $birth_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->input('birth_date'))));
 
 		    $updated = array(
-			    'number' => $request->input('number'),
+			    'number' => $location->kabkot . $location->kecamatan . $request->input('number'),
 			    'joined_at' => $joined_at,
 			    'fullname' => ucwords($request->input('fullname')),
 			    'father_name' => ucwords($request->input('father_name')),
@@ -213,8 +223,8 @@ class AccountController extends Controller
     }
 
     private function generate_account_number(){
-	    $string=env('OPT_APP_CODE');
-	    for($i=0;$i<env('OPT_ACCOUNT_NUMBER_LENGTH')-2;$i++) {
+	    $string='';
+	    for($i=0;$i<env('OPT_ACCOUNT_NUMBER_LENGTH');$i++) {
 		    $string.=rand(0,9);
 	    }
 	    return $string;

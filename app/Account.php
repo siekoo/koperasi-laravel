@@ -2,6 +2,7 @@
 
 namespace App;
 
+use GeniusTS\HijriDate\Hijri;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,8 +28,9 @@ class Account extends Model
     	return $this->hasOne('App\Kabkot', 'id', 'kabkot')->get()->first();
     }
 
-	public function joined_at($format = 'd/m/Y'){
-		return date($format,strtotime($this->joined_at));
+	public function joined_at($format = 'd/m/Y H:i'){
+		return 'gregorian' == env('OPT_DATE_FORMAT') ? date($format,strtotime($this->joined_at))
+			: Hijri::convertToHijri($this->joined_at)->format($format);
 	}
 
     public function ttl($format = 'd/m/Y'){

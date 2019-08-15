@@ -7,6 +7,12 @@ use App\Deposit;
 use App\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use GeniusTS\HijriDate;
+use App\Kabkot;
+use App\Kecamatan;
+use App\Desa;
+use App\Exports\DepositExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DepositController extends Controller
 {
@@ -15,14 +21,73 @@ class DepositController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $deposit = Deposit::orderBy('id','desc')->take(10)->get();
-        return view('admin.deposit.index', array('deposits' => $deposit));
+
+    	$deposit = DB::table('deposits')
+            ->join('accounts', 'deposits.account_id', '=', 'accounts.id')
+		    ->select([
+		    	'deposits.*',
+			    'accounts.number', 'accounts.fullname', 'accounts.phone', 'accounts.gender', 'accounts.address', 'accounts.dusun',
+			    'accounts.desa', 'accounts.kecamatan', 'accounts.kabkot',
+		    ])
+		    ;
+
+	    $param = array(
+		    'kabkot' => 'ALL', 'kecamatan' => 'ALL', 'desa' => 'ALL',
+		    'startdate' => 'ALL', 'enddate' => 'ALL',
+	    );
+
+		$startdate = $request->has('startdate') ? $request->input('startdate') : 'ALL';
+	    $enddate = $request->has('enddate') ? $request->input('enddate') : 'ALL';
+		if($startdate != 'ALL' && $enddate != 'ALL'){
+			$exp = explode('-', $startdate);
+			$startgreg = HijriDate\Hijri::convertToGregorian($exp[0], $exp[1], $exp[2])->format('Y-m-d');
+
+		    $exp = explode('-', $enddate);
+		    $endgreg = HijriDate\Hijri::convertToGregorian($exp[0], $exp[1], $exp[2])->format('Y-m-d');
+
+		    $deposit->whereRaw('(deposits.created_at >= "' . $startgreg . ' 00:00:00 " AND deposits.created_at <= "' . $endgreg . ' 23:59:59")');
+	    }
+
+	    unset($param['startdate']);
+	    unset($param['enddate']);
+
+	    foreach($param as $key => $val){
+		    if($request->has($key)) {
+			    $param[$key] = $request->input($key);
+			    if($param[$key] != 'ALL') {
+				    $deposit->where($key, $param[$key]);
+				    if($key == 'kecamatan') $param['kecamatan_data'] = Kecamatan::find($param['kecamatan']);
+				    if($key == 'desa') $param['desa_data'] = Desa::find($param['desa']);
+			    }
+		    }
+	    }
+
+	    $kabkot = Kabkot::orderBy('kode', 'asc')->get();
+	    $param['kabkot_data'] = $kabkot;
+
+	    $param['deposits'] = $deposit->get();
+	    $param['print'] = $request->has('print') ? true : false;
+	    $param['startdate'] = $startdate;
+	    $param['enddate'] = $enddate;
+
+	    $filename = 'deposit-' . date('dmy') . '-kabkot=' . $param['kabkot']
+	                . '-kecamatan=' . $param['kecamatan']
+	                . '-desa=' . $param['desa']
+	                . '-rentang=' . $startdate . 'sd' . $enddate;
+
+	    if($request->has('export'))
+		    return Excel::download(new DepositExport($param), $filename . '.xls');
+
+        return view('admin.deposit.index', $param);
     }
 
     public function weekly(Request $request)
     {
+    	$startWeek = HijriDate\Date::today()->startOfWeek();
+    	$endWeek = HijriDate\Date::today()->endOfWeek();
+
     	$week = $request->has('week') ? $request->input('week') : Date('W');
     	$year = $request->has('week') ? $request->input('year') : Date('Y');
     	$status = $request->has('status') ? strtolower($request->input('status')) : 'all';
@@ -40,9 +105,8 @@ class DepositController extends Controller
 		    elseif($status == $a->weekly_payment) $account_payment[] = $a;
 	    }
 	    $param = array(
-	    	'year' => $year,
-		    'week' => $week,
-		    'status' => $status,
+	    	'startdate' => $startWeek->format('d-m-Y'),
+		    'enddate' => $endWeek->format('d-m-Y'),
 		    'account_payment' => $account_payment
 	    );
 	    return view('admin.deposit.weekly', $param);
@@ -60,6 +124,7 @@ class DepositController extends Controller
     		$account = Account::where('number', $request->input('number'))->first();
 		    $param['account'] = $account;
 	    }
+	    $param['current'] = 'gregorian' == env('OPT_DATE_FORMAT') ? date('d/m/Y') : HijriDate\Date::today()->format('d/m/Y');
         return view('admin.deposit.form', $param);
     }
 

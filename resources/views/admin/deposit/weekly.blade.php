@@ -14,31 +14,49 @@
                     <h3>Daftar Anggota Belum Iuran</h3>
                 </div>
                 <div class="box-body">
-                    <table id="pending-account" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                        <th>No</th>
-                        <th>Registrasi</th>
-                        <th>Nama</th>
-                        <th>Alamat</th>
-                        <th>Kontak</th>
-                        <th>Status</th>
-                        <th></th>
-                        </thead>
-                        <tbody>
-                        @foreach($account_payment as $k => $p)
-                            <tr>
-                                <td>{{ $k+1 }}</td>
-                                <td>{{ $p->number }}</td>
-                                <td><a href="{{ Route('admin.account.show', $p->id) }}">{{ $p->fullname }}</a></td>
-                                <td>{{ $p->desa_full() }}</td>
-                                <td><a href="http://wa.me/{{ $p->phone }}" target="_blank"><i class="fa fa-whatsapp"></i> {{ $p->phone }}</a></td>
-                                <td><span class="label label-{{ $p->weekly_payment == 'paid' ? 'success' : 'warning' }}">{{ strtoupper($p->weekly_payment) }}</span></td>
-                                <td>@if($p->weekly_payment == 'pending')<a class="btn btn-primary" href="{{ Route('admin.deposit.create', array('number' => $p->number)) }}"><i class="fa fa-pencil"></i> Isi Iuran</a>@endif</td>
-                            </tr>
-
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td width="100">Rentang data</td>
+                                    <td>: {{ $startdate }} s/d {{ $enddate }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="pending-account" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <th>No</th>
+                                <th>Registrasi</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Kecamatan</th>
+                                <th>Kabkot</th>
+                                <th>Kontak</th>
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                @foreach($account_payment as $k => $p)
+                                    <tr>
+                                        <td>{{ $k+1 }}</td>
+                                        <td>{{ $p->number }}</td>
+                                        <td><a href="{{ Route('admin.account.show', $p->id) }}">{{ $p->fullname }}</a></td>
+                                        <td>{{ $p->address }}, {{ $p->dusun }}</td>
+                                        <td>{{ \App\Kecamatan::find($p->kecamatan)->nama }}</td>
+                                        <td>{{ \App\Kabkot::find($p->kabkot)->nama }}</td>
+                                        <td><a href="http://wa.me/{{ $p->phone }}" target="_blank"><i class="fa fa-whatsapp"></i> {{ $p->phone }}</a></td>
+                                        <?php /* <td><span class="label label-{{ $p->weekly_payment == 'paid' ? 'success' : 'warning' }}">{{ strtoupper($p->weekly_payment) }}</span></td> */ ?>
+                                        <td>@if($p->weekly_payment == 'pending')<a class="btn btn-primary" href="{{ Route('admin.deposit.create', array('number' => $p->number)) }}"><i class="fa fa-pencil"></i> Isi Iuran</a>@endif</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,6 +85,7 @@
             $('#pending-account').DataTable({
                 "order": [[ 2, "asc" ]]
             });
+            <?php /*
             $('<div id="custom-filter" style="display: inline; margin-left: 15px;">Pekan : ' +
                 '<select class="form-control" id="dtweek" name="week"></select>' +
                 '<select class="form-control" id="dtyear" name="year"></select>' +
@@ -96,6 +115,7 @@
             $('#dtfilter').click(function(){
                 window.location.href = action + '?year=' + $('#dtyear').val() + '&week=' + $('#dtweek').val() + '&status=' + $('#dtstatus').val();
             })
+            */ ?>
         } );
 
     </script>

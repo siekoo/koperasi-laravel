@@ -31,7 +31,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right select-date" value="{{ isset($expense) ? $expense->expense_date() : date('d/m/Y') }}" id="expense_date" name="expense_date">
+                                    <input type="text" class="form-control pull-right" value="{{ isset($expense) ? $expense->expenseDate() : $current }}" id="expense_date" name="expense_date" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
                                 </div>
                             </div>
                         </div>
